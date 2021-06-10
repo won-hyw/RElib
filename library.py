@@ -1,5 +1,7 @@
 # library.py
 # 1. 대출 2. 반납 3. 책 등록 4. 예약  5. 중고책 구매 6. 종료
+from book import Book
+
 def show_menu():
     print('1. 대출')
     print('2. 반납')
@@ -12,6 +14,7 @@ def show_menu():
 
 
 def main():
+    my_book = Book()
     while True:
         menu = show_menu()
         if menu == '1':
@@ -19,7 +22,7 @@ def main():
         elif menu == '2':
             pass
         elif menu == '3':
-            pass
+            my_book.add_book()
         elif menu == '4':
             pass
         elif menu == '5':

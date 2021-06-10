@@ -9,6 +9,7 @@ class Book:
         self.description = ''
         self.price = 0
         self.quantity = 1
+        self.library_list = [] # 도서관에 있는 모든 책을 담을 리스트 필요
 
     def set_title(self):
         title = input('>> 책 제목을 입력해주세요: ')
@@ -45,6 +46,11 @@ class Book:
         self.set_description()
         self.set_price()
         self.set_quantity()
+
+    def add_book(self):
+        new_book = Book()
+        new_book.set_book()
+        self.library_list.append(new_book) # 리스트에 담기
 
     def __str__(self):
         return f'책 제목: {self.title}\n저자: {self.author}\n출판사: {self.publish}\n한줄설명: {self.description}\n가격: {self.price}\n수량: {self.quantity}'
