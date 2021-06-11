@@ -1,5 +1,5 @@
 # library.py
-# 1. 도서관 책 모아보기 2. 대출 3. 반납 4. 책 등록 5. 예약  6. 중고책 구매 구현
+# 1. 도서관 책 모아보기 2. 대여 3. 반납 4. 책 등록 5. 예약  6. 중고책 구매 구현
 from book import Book
 
 
@@ -8,9 +8,8 @@ class MyLibrary(Book):
         super().__init__()
         self.book_list = [] # 내가 대여한 책의 리스트
         self.library_list = []  # 도서관에 있는 모든 책을 담을 리스트 필요
-        # self.time = time
-        # self.day = day
         self.basic_book()
+        self.reservationBook_list = {}
 
     def add_book(self):
         new_book = Book()
@@ -23,11 +22,37 @@ class MyLibrary(Book):
             print(library)
 
     def res_book(self):
-        pass
+        self.show_library()
+        res_book = input('>> 예약할 책을 입력하세요: ')
+        month = int(input('>> 대여할 월을 입력해주세요 : '))
+        day = int(input('>> 대여할 일을 입력해주세요 : '))
+        first_loan_date = "대여시작일: " + str(month) + "월 " + str(day) + "일"
+        while True:  # 최대 대여 기간을 넘겼을 경우 다시 입력하게 만든다.
+            loan_term = int(input('>> 대여할 기간을 입력해주세요 (최대 14일) : '))
+            if loan_term > 14:
+                print(f'대여 기간은 최대 14일까지 가능합니다. 다시 입력해주세요.')
+            else:
+                break
+        month_list = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        for i in range(loan_term-1): # 대여할 기간만큼 반복
+            day += 1
+            if day == month_list[month-1]: # day가 그 달의 최대 일일 경우 다음 달로 넘겨준다
+                day = 1
+                month += 1
+        last_loan_date = "대여마감일: " + str(month) + "월 " + str(day) + "일"
+        for book in self.library_list:
+            if res_book in book.title:
+                self.reservationBook_list = {
+                    'book': book,
+                    'loan_date1': first_loan_date,
+                    'loan_date2': last_loan_date
+                }
+        for key, value in self.reservationBook_list.items():
+            print(value)
 
     def borrow_book(self):
         self.show_library()
-        book_name = input('>> 원하는 책 이름을 검색하세요 : ')
+        book_name = input('>> 대여할 책 이름을 검색하세요 : ')
         for book in self.library_list:
             if book_name in book.title:
                 borrow_book = Book() # 수량을 1개로 넘기기 위해서 객체를 생성하여 넘긴다.

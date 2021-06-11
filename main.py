@@ -1,11 +1,11 @@
 # main.py
-# 1. 도서관 책 모아보기 2. 대출 3. 반납 4. 책 등록 5. 예약  6. 중고책 구매 7. 종료
+# 1. 도서관 책 모아보기 2. 대여 3. 반납 4. 책 등록 5. 예약  6. 중고책 구매 7. 종료
 from library import MyLibrary
 
 
 def show_menu():
     print('1. 도서관 책 모아보기')
-    print('2. 대출')
+    print('2. 대여')
     print('3. 반납')
     print('4. 책 등록')
     print('5. 예약')
@@ -23,7 +23,7 @@ def main():
             # 도서관 책 모아보기
             my_book.show_library()
         elif menu == '2':
-            # 대출
+            # 대여
             my_book.borrow_book()
         elif menu == '3':
             # 반납

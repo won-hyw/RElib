@@ -9,6 +9,7 @@ class Book:
         self.description = ''
         self.price = 0
         self.quantity = 1
+        self.loan_date = ''
 
     def set_title(self):
         title = input('>> 책 제목을 입력해주세요: ')
