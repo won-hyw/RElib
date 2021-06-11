@@ -1,37 +1,108 @@
 # library.py
-# 1. 대출 2. 반납 3. 책 등록 4. 예약  5. 중고책 구매 6. 종료
+# 1. 도서관 책 모아보기 2. 대출 3. 반납 4. 책 등록 5. 예약  6. 중고책 구매 구현
 from book import Book
 
-def show_menu():
-    print('1. 대출')
-    print('2. 반납')
-    print('3. 책 등록')
-    print('4. 예약')
-    print('5. 중고책 구매')
-    print('6. 종료')
-    menu = input('>> 메뉴를 선택해주세요 : ')
-    return menu
 
+class MyLibrary(Book):
+    def __init__(self):
+        super().__init__()
+        self.book_list = [] # 내가 대여한 책의 리스트
+        self.library_list = []  # 도서관에 있는 모든 책을 담을 리스트 필요
+        # self.time = time
+        # self.day = day
+        self.basic_book()
 
-def main():
-    my_book = Book()
-    while True:
-        menu = show_menu()
-        if menu == '1':
-            pass
-        elif menu == '2':
-            pass
-        elif menu == '3':
-            my_book.add_book()
-        elif menu == '4':
-            pass
-        elif menu == '5':
-            pass
-        elif menu == '6':
-            break
-        else:
-            print('다시 입력하세요.')
+    def add_book(self):
+        new_book = Book()
+        new_book.set_book()
+        self.library_list.append(new_book)  # 리스트에 담기
 
+    def show_library(self):  # 도서관에 있는 모든 책을 보여줌
+        for index, library in enumerate(self.library_list):
+            print(f'\n{index + 1}번.')
+            print(library)
 
-if __name__ == '__main__':
-    main()
+    def res_book(self):
+        pass
+
+    def borrow_book(self):
+        self.show_library()
+        book_name = input('>> 원하는 책 이름을 검색하세요 : ')
+        for book in self.library_list:
+            if book_name in book.title:
+                borrow_book = Book() # 수량을 1개로 넘기기 위해서 객체를 생성하여 넘긴다.
+                borrow_book.title = book.title
+                borrow_book.author = book.author
+                borrow_book.publish = book.publish
+                borrow_book.description = book.description
+                borrow_book.price = book.price
+                self.book_list.append(borrow_book)
+                if book.quantity == 1:
+                    self.library_list.remove(book)  # 더 이상 빌릴 수 없게
+                else:
+                    book.quantity -= 1
+                return
+        print('도서관에 존재하지 않는 책입니다!!')
+
+    def return_library(self):
+        for index, book in enumerate(self.book_list):
+            print(f'\n{index + 1}번.')
+            print(book)
+        book_name = input('반납할 책 이름을 입력해주세요 : ')
+        for book in self.book_list:
+            if book_name in book.title:
+                for return_book in self.library_list:
+                    if book_name in return_book.title:
+                        return_book.quantity += 1
+                    else:
+                        self.library_list.append(book)  # 다시 빌릴 수 있게
+                self.book_list.remove(book)
+                return
+        print('대여 목록에 책이 존재하지 않습니다!!')
+
+    def buy_book(self):
+        self.show_library()
+        search_book = input('>> 구매할 책 이름을 검색하세요 : ')
+        for buy in self.library_list:
+            if search_book in buy.title:
+                answer = input(f'{buy.title}의 가격은 {buy.price}입니다. 사시겠습니까? (네/아니오) : ')
+                if answer == '네':
+                    for book in self.library_list:
+                        if search_book in book.title:
+                            if book.quantity == 1:
+                                self.library_list.remove(book)
+                            else:
+                                book.quantity -= 1
+                    return
+                else:
+                    return
+        print('원하시는 책을 찾을 수 없습니다.')
+
+    def basic_book(self):
+        첫번째 = Book()
+        첫번째.title = '아몬드'
+        첫번째.author = '손원평'
+        첫번째.publish = '창비'
+        첫번째.description = '감정을 느끼지 못하는 소년의 특별한 성장 이야기'
+        첫번째.price = 12000
+        첫번째.quantity = 2
+        self.library_list.append(첫번째)
+        두번째 = Book()
+        두번째.title = '어린왕자'
+        두번째.author = '앙투안 드 생택쥐페리'
+        두번째.publish = '인디고(글담)'
+        두번째.price = 9800
+        self.library_list.append(두번째)
+        세번째 = Book()
+        세번째.title = '달러구트 꿈 백화점'
+        세번째.author = '이미예'
+        세번째.publish = '팩토리나인'
+        세번째.description = '꿈을 사고파는 사람들의 뭉클하고 따뜻한 이야기'
+        세번째.price = 13800
+        세번째.quantity = 3
+        self.library_list.append(세번째)
+        네번째 = Book()
+        네번째.title = '소년이 온다'
+        네번째.author = '한강'
+        네번째.price = 13000
+        self.library_list.append(네번째)
