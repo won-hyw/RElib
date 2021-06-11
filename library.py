@@ -35,10 +35,10 @@ class MyLibrary(Book):
                 break
         month_list = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         for i in range(loan_term-1): # 대여할 기간만큼 반복
-            day += 1
-            if day == month_list[month-1]: # day가 그 달의 최대 일일 경우 다음 달로 넘겨준다
+            if day == month_list[month - 1]:  # day가 그 달의 최대 일일 경우 다음 달로 넘겨준다
                 day = 1
                 month += 1
+            day += 1
         last_loan_date = "대여마감일: " + str(month) + "월 " + str(day) + "일"
         for book in self.library_list:
             if res_book in book.title:
