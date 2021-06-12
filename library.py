@@ -79,8 +79,10 @@ class MyLibrary(Book):
                 for return_book in self.library_list:
                     if book_name in return_book.title:
                         return_book.quantity += 1
+                        break
                     else:
                         self.library_list.append(book)  # 다시 빌릴 수 있게
+                        break
                 self.book_list.remove(book)
                 return
         print('대여 목록에 책이 존재하지 않습니다!!')
