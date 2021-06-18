@@ -29,8 +29,8 @@ class MyLibrary(Book):
         while True:
             month = int(input('>> 대여할 월을 입력해주세요 : '))
             day = int(input('>> 대여할 일을 입력해주세요 : '))
-            now_month = int(datetime.today().strftime('%m'))
-            now_day = int(datetime.today().strftime('%d'))
+            now_month = int(datetime.today().strftime('%m')) # 현재 월을 가져와서 now_month에 담는다.
+            now_day = int(datetime.today().strftime('%d')) # 현재 일을 가져와서 now_day에 담는다.
             if month < now_month:
                 print('지난 날짜입니다. 다시 입력해주세요.')
             elif month == now_month:
@@ -69,7 +69,7 @@ class MyLibrary(Book):
         book_name = input('>> 대여할 책 이름을 검색하세요 : ')
         for book in self.library_list:
             if book_name in book.title:
-                print(book_name + "이(가) 대여되었습니다.")
+                print(book.title + "이(가) 대여되었습니다.")
                 borrow_book = Book() # 수량을 1개로 넘기기 위해서 객체를 생성하여 넘긴다.
                 borrow_book.title = book.title
                 borrow_book.author = book.author
@@ -89,17 +89,15 @@ class MyLibrary(Book):
             print(f'\n{index + 1}번.')
             print(book)
         book_name = input('반납할 책 이름을 입력해주세요 : ')
-        for book in self.book_list:
-            if book_name in book.title:
-                for return_book in self.library_list:
-                    if book_name in return_book.title:
-                        return_book.quantity += 1
-                        break
+        for borrow_book in self.book_list:
+            if book_name in borrow_book.title: # 반납할 책이 내가 빌린 책인지 확인하고
+                for library_book in self.library_list: # 도서관 안에 수량을 확인해야 하고 일을 수행해야 한다.
+                    if library_book.quantity > 0:
+                        library_book.quantity += 1
                     else:
-                        self.library_list.append(book)  # 다시 빌릴 수 있게
-                        break
-                print(book_name + "이(가) 반납되었습니다.")
-                self.book_list.remove(book)
+                        self.library_list.append(borrow_book)
+                print(borrow_book.title + "이(가) 반납되었습니다.")
+                self.book_list.remove(borrow_book)
                 return
         print('대여 목록에 책이 존재하지 않습니다!!')
 
@@ -132,6 +130,7 @@ class MyLibrary(Book):
         첫번째.quantity = 2
         self.library_list.append(첫번째)
         두번째 = Book()
+
         두번째.title = '어린왕자'
         두번째.author = '앙투안 드 생택쥐페리'
         두번째.publish = '인디고(글담)'
@@ -143,10 +142,11 @@ class MyLibrary(Book):
         세번째.publish = '팩토리나인'
         세번째.description = '꿈을 사고파는 사람들의 뭉클하고 따뜻한 이야기'
         세번째.price = 13800
-        세번째.quantity = 3
+        세번째.quantity = 2
         self.library_list.append(세번째)
         네번째 = Book()
         네번째.title = '소년이 온다'
         네번째.author = '한강'
         네번째.price = 13000
+        네번째.quantity = 2
         self.library_list.append(네번째)
