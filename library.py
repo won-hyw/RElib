@@ -130,7 +130,6 @@ class MyLibrary(Book):
         첫번째.quantity = 2
         self.library_list.append(첫번째)
         두번째 = Book()
-
         두번째.title = '어린왕자'
         두번째.author = '앙투안 드 생택쥐페리'
         두번째.publish = '인디고(글담)'
@@ -142,11 +141,11 @@ class MyLibrary(Book):
         세번째.publish = '팩토리나인'
         세번째.description = '꿈을 사고파는 사람들의 뭉클하고 따뜻한 이야기'
         세번째.price = 13800
-        세번째.quantity = 2
+        세번째.quantity = 3
         self.library_list.append(세번째)
         네번째 = Book()
         네번째.title = '소년이 온다'
         네번째.author = '한강'
         네번째.price = 13000
-        네번째.quantity = 2
+        네번째.quantity = 1
         self.library_list.append(네번째)
