@@ -1,7 +1,8 @@
 # library.py
 # 1. 도서관 책 모아보기 2. 대여 3. 반납 4. 책 등록 5. 예약  6. 중고책 구매 구현
-from book import Book
+from datetime import datetime
 
+from book import Book
 
 class MyLibrary(Book):
     def __init__(self):
@@ -23,9 +24,22 @@ class MyLibrary(Book):
 
     def res_book(self):
         self.show_library()
+        print('예약 대여할 경우, 대여할 날짜로부터 최대 14일까지 책을 빌릴 수 있습니다. 단, 대여한 당일도 포함됩니다.')
         res_book = input('>> 예약할 책을 입력하세요: ')
-        month = int(input('>> 대여할 월을 입력해주세요 : '))
-        day = int(input('>> 대여할 일을 입력해주세요 : '))
+        while True:
+            month = int(input('>> 대여할 월을 입력해주세요 : '))
+            day = int(input('>> 대여할 일을 입력해주세요 : '))
+            now_month = int(datetime.today().strftime('%m'))
+            now_day = int(datetime.today().strftime('%d'))
+            if month < now_month:
+                print('지난 날짜입니다. 다시 입력해주세요.')
+            elif month == now_month:
+                if day < now_day:
+                    print('지난 날짜입니다. 다시 입력해주세요.')
+                else:
+                    break
+            else:
+                break
         first_loan_date = "대여시작일: " + str(month) + "월 " + str(day) + "일"
         while True:  # 최대 대여 기간을 넘겼을 경우 다시 입력하게 만든다.
             loan_term = int(input('>> 대여할 기간을 입력해주세요 (최대 14일) : '))
@@ -55,6 +69,7 @@ class MyLibrary(Book):
         book_name = input('>> 대여할 책 이름을 검색하세요 : ')
         for book in self.library_list:
             if book_name in book.title:
+                print(book_name + "이(가) 대여되었습니다.")
                 borrow_book = Book() # 수량을 1개로 넘기기 위해서 객체를 생성하여 넘긴다.
                 borrow_book.title = book.title
                 borrow_book.author = book.author
@@ -83,6 +98,7 @@ class MyLibrary(Book):
                     else:
                         self.library_list.append(book)  # 다시 빌릴 수 있게
                         break
+                print(book_name + "이(가) 반납되었습니다.")
                 self.book_list.remove(book)
                 return
         print('대여 목록에 책이 존재하지 않습니다!!')
@@ -96,6 +112,7 @@ class MyLibrary(Book):
                 if answer == '네':
                     for book in self.library_list:
                         if search_book in book.title:
+                            print(search_book + "이(가) 구매되었습니다.")
                             if book.quantity == 1:
                                 self.library_list.remove(book)
                             else:
